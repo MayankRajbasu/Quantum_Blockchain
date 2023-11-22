@@ -19,6 +19,8 @@
 * Take index, previous_hash, timestamp, data, quantum_key as input
 * Calculate hash using lattice-based hash function 
 * lattice-based hash function employs SHAKE-256 algorithm and large prime modulus for message digest and producing lattice-based hash using previous_hash
+
+
 # Team Members
 * Mayank Raj
 * Susan Shilbi
