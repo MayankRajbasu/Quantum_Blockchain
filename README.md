@@ -54,7 +54,7 @@
 ![image](https://github.com/Mayank-902/Quantum_Blockchain/assets/76254590/1afdf03d-a55f-43a8-ac07-62aa6541e1a9)
 
 =======
-##Youtube links:
+Youtube links:
 The links provided below would help you understand the concepts and solutions in a much more proper way.
 * Basic General Idea : https://youtu.be/hlOw1xysR04
 * Deeper Discussions: https://youtu.be/qKdhKEkkuf0
