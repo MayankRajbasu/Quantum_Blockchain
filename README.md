@@ -28,11 +28,10 @@
 * Shaswat Kaushik
 * Vaidik Chhirolya
 
-# Prposed Model Arhitecture:
+# Proposed Model Arhitecture:
 ![image](https://github.com/Mayank-902/Quantum_Blockchain/assets/76254590/fc64e23e-57aa-4ad0-b0c2-ae02ba14c0e3)
 
 ## The Test:
-
 * We are implemting Double-Spending Attack on a simple blockchaina nd our proposed quantum blockchain and comparing the complexity of both the codes by looking at he outputs.
 * The output clearly showcases that the more complex nature of the quantum blockcahin makes it harder for such an attack to be successful.
 * This ensures the future safety of blockchain applications from the more sophisticated and fast Quantum Computers by utilizing quantum safe algorithms.
