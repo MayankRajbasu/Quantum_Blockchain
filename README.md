@@ -46,7 +46,9 @@
 ## OUTPUT OF test_blockchain.py:
 
 * Testing Simple blockchain:
+
 ![image](https://github.com/Mayank-902/Quantum_Blockchain/assets/76254590/9cb596c1-47e0-494c-95b2-89143c82473c)
   
 * Testing Quantum blockchain:
+
 ![image](https://github.com/Mayank-902/Quantum_Blockchain/assets/76254590/1afdf03d-a55f-43a8-ac07-62aa6541e1a9)
