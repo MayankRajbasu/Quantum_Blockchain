@@ -1,5 +1,6 @@
-from qiskit import Aer, QuantumCircuit, transpile, assemble, execute
-from qiskit.visualization import plot_histogram
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit.compiler import assemble
 import hashlib
 import time
 from math import gcd
@@ -28,7 +29,6 @@ class Block:
         self.quantum_key = quantum_key
         self.hash = hash
 
-
 def calculate_hash(index, previous_hash, timestamp, data, quantum_key):
     # Use lattice-based hash function instead of SHA-256
     return lattice_based_hash(index, previous_hash, timestamp, data + quantum_key)
@@ -36,13 +36,11 @@ def calculate_hash(index, previous_hash, timestamp, data, quantum_key):
 def create_genesis_block():
     return Block(0, "0", int(time.time()), "Genesis Block", "0", calculate_hash(0, "0", int(time.time()), "Genesis Block", "0"))
 
-
 def create_new_block(previous_block, data, quantum_key):
     index = previous_block.index + 1
     timestamp = int(time.time())
     hash = calculate_hash(index, previous_block.hash, timestamp, data, quantum_key)
     return Block(index, previous_block.hash, timestamp, data, quantum_key, hash)
-
 
 def is_chain_valid(chain):
     for i in range(1, len(chain)):
@@ -53,6 +51,45 @@ def is_chain_valid(chain):
             return False
 
     return True
+
+# def bbm92_protocol():
+#     # Step 1: Prepare the quantum circuit
+#     alice = QuantumCircuit(1, 1, name='Alice')
+#     bob = QuantumCircuit(1, 1, name='Bob')
+
+#     alice.h(0)  # Apply Hadamard gate
+#     alice.measure(0, 0)  # Measure qubit
+
+#     # Share the quantum circuit state
+#     bob.measure(0, 0)
+
+#     # Step 2: Simulate the circuit
+#     backend = AerSimulator()
+
+#     circuits = [alice, bob]
+#     transpiled_circuits = transpile(circuits, backend)
+
+#     qobj = assemble(transpiled_circuits)
+#     result = backend.run(qobj).result()
+
+#     # Step 3: Analyze the results
+#     alice_counts = result.get_counts(0)
+#     bob_counts = result.get_counts(1)
+
+#     # Extract key
+#     alice_key = list(alice_counts.keys())[0]
+#     bob_key = list(bob_counts.keys())[0]
+
+#     print("Alice's key:", alice_key)
+#     print("Bob's key:", bob_key)
+
+#     # Step 4: Compare keys and establish a secure key
+#     if alice_key == bob_key:
+#         print("Keys match. Secure key exchange successful!")
+#         return alice_key
+#     else:
+#         print("Keys do not match. Key exchange failed.")
+#         return None
 
 def bbm92_protocol():
     # Step 1: Prepare the quantum circuit
@@ -66,17 +103,17 @@ def bbm92_protocol():
     bob.measure(0, 0)
 
     # Step 2: Simulate the circuit
-    backend = Aer.get_backend('qasm_simulator')
-    shots = 1024
-    alice_job = execute(alice, backend=backend, shots=shots)
-    bob_job = execute(bob, backend=backend, shots=shots)
-    
-    alice_result = alice_job.result()
-    bob_result = bob_job.result()
+    backend = AerSimulator()
 
-    # Step 3: Analyze the results
-    alice_counts = alice_result.get_counts(alice)
-    bob_counts = bob_result.get_counts(bob)
+    circuits = [alice, bob]
+    transpiled_circuits = transpile(circuits, backend)
+
+    # Step 3: Run the circuits directly
+    result = backend.run(transpiled_circuits).result()
+
+    # Step 4: Analyze the results
+    alice_counts = result.get_counts(0)
+    bob_counts = result.get_counts(1)
 
     # Extract key
     alice_key = list(alice_counts.keys())[0]
@@ -85,13 +122,14 @@ def bbm92_protocol():
     print("Alice's key:", alice_key)
     print("Bob's key:", bob_key)
 
-    # Step 4: Compare keys and establish a secure key
+    # Step 5: Compare keys and establish a secure key
     if alice_key == bob_key:
         print("Keys match. Secure key exchange successful!")
         return alice_key
     else:
         print("Keys do not match. Key exchange failed.")
         return None
+
 
 # Create a simple blockchain with quantum key distribution and lattice-based hash
 blockchain = [create_genesis_block()]
@@ -123,3 +161,4 @@ for block in blockchain:
 
 # Validate the blockchain
 print("Is the blockchain valid?", is_chain_valid(blockchain))
+
